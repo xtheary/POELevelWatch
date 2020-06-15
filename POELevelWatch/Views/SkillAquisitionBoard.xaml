@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="POELevelMon.Views.SkillAquisitionBoard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:POELevelMon.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="White">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="DataGridCellCentered">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Content.Text, Mode=OneWay, RelativeSource={RelativeSource Self}}" Value="X">
+                    <Setter Property="Foreground" Value="Red"/>
+                    <Setter Property="Background" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Content.Text, Mode=OneWay, RelativeSource={RelativeSource Self}}" Value="O">
+                    <Setter Property="Foreground" Value="Green"/>
+                    <Setter Property="Background" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid Name="aquisitionTable" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding SkillAquisitionList}" SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Quest" Width="150" Binding="{Binding Quest}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Witch" Binding="{Binding Available[Witch]}" ElementStyle="{StaticResource DataGridCellCentered}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Shadow" Binding="{Binding Available[Shadow]}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Ranger" Binding="{Binding Available[Ranger]}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Duelist" Binding="{Binding Available[Duelist]}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Marauder" Binding="{Binding Available[Marauder]}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Templar" Binding="{Binding Available[Templar]}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Scion" Binding="{Binding Available[Scion]}" ElementStyle="{StaticResource DataGridCellCentered}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="Beige">
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="8"></Border>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center">Quest</Label>
+            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">Witch</Label>
+            <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center">Shadow</Label>
+            <Label Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center">Ranger</Label>
+            <Label Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center">Duelist</Label>
+            <Label Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center">Marauder</Label>
+            <Label Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center">Templar</Label>
+            <Label Grid.Row="0" Grid.Column="7" HorizontalAlignment="Center">Scion</Label>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="200">Mercy Mission</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="200">Mercy Mission</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                    <Label Width="1*">X</Label>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+-->
+    </Grid>
+</UserControl>
