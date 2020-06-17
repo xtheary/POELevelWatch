@@ -34,14 +34,15 @@ namespace POELevelMon
         public MainWindow()
         {
             InitializeComponent();
-            _skillGemsView.Initialize();
+            
             contentView.Content = _skillGemsView;
+            //_skillGemsView.Initialize();
             // _skillGemsView.LoadSkillsAsync().GetAwaiter();
             //    _skillGemsView.LoadSkillGemsAsync();
             //_skillGemsView.LoadSkillGems();
             //   characterLevel.IsReadOnly = true;
         }
-      
+                
 
         private void skillGemsBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -56,6 +57,11 @@ namespace POELevelMon
         private void levelingBtn_Click(object sender, RoutedEventArgs e)
         {
             contentView.Content = _levelingView;
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+           await _skillGemsView.Initialize();
         }
     }
 }

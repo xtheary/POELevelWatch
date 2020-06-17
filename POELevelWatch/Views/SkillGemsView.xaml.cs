@@ -1,31 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using POELevelMon.Data;
+using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Net.Http;
-using System.Net;
-using System.IO;
-using RestSharp;
-using RestSharp.Authenticators;
-using RestSharp.Serialization.Xml;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using POELevelMon.Data;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace POELevelMon.Views
 {
@@ -37,7 +23,6 @@ namespace POELevelMon.Views
         private string _skillsUrl = "https://pathofexile.gamepedia.com/api.php?action=cargoquery&tables=items,skill_gems&join_on=items._pageName=skill_gems._pageName&fields=items.name,skill_gems.primary_attribute,items.required_level&where=class_id=%22Active%20Skill%20Gem%22%20OR%20class_id=%22Support%20Skill%20Gem%22&limit=500&format=json";
         private string _questRewardsUrl = "https://pathofexile.gamepedia.com/api.php?action=cargoquery&tables=quest_rewards&fields=quest,act,reward,classes&limit=500&format=json";
         private string _vendorRewardsUrlStart = "https://pathofexile.gamepedia.com/api.php?action=cargoquery&tables=vendor_rewards&fields=quest,act,reward,classes,npc&limit=500";
-        private string _vendorRewardsUrl = "https://pathofexile.gamepedia.com/api.php?action=cargoquery&tables=vendor_rewards&fields=quest,act,reward,classes,npc&limit=500&format=json";
         public ObservableCollection<SkillGem> AllSkillGems { get; set; } = new ObservableCollection<SkillGem>();
         public ObservableCollection<SkillGem> MyBuildSkillGems { get; set; } = new ObservableCollection<SkillGem>();
         public ObservableCollection<SkillGemPerLevel> SkillsPerLevel { get; set; } = new ObservableCollection<SkillGemPerLevel>();
@@ -139,7 +124,7 @@ namespace POELevelMon.Views
                         _allVendorRewards.Add(questName, vendorRewards);
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessageBox.Show("exception");
                 }
