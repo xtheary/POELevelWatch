@@ -1,0 +1,72 @@
+name: Publish-Release
+
+#Trigger this workflow when a tag containing vPrefis is pushed
+on:
+  push:
+    tags: 
+      -  'v*'
+
+jobs:
+
+  build:
+
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    runs-on: windows-latest 
+
+    env:
+      Solution_Name: POELevelWatch.Core.sln
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+
+    - name: Publish with dotnet
+      run: dotnet publish $env:Solution_Name -r win-x64 -c Release /p:PublishSingleFile=true -o $env:GITHUB_WORKSPACE\Publish
+      
+    - name: Install 7zip
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+         
+    - name: Zip publish folder
+      run: powershell Compress-7zip $env:GITHUB_WORKSPACE\Publish -ArchiveFileName "Releasex64.zip" -Format Zip
+   
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Automated Release
+        draft: false
+        prerelease: true
+        
+    - name: Upload Release Asset (x64)
+      id: upload-release-asset-x64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Releasex64.zip
+        asset_name: Releasex64.zip
+        asset_content_type: application/zip
+          
+    #- name: Upload a Build Artifact
+     # uses: actions/upload-artifact@v2
+      #with:
+       # name: Release
+        #path: ./Releasex64.zip
