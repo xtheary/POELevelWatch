@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+	<RootNamespace>POELevelWatch</RootNamespace>
+    <AssemblyName>POELevelWatch</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Sheets.v4">
+      <Version>1.46.0.1981</Version>
+    </PackageReference>
+    <PackageReference Include="MiqM.Xceed.Wpf.Toolkit.NETCore" Version="3.5.1.3" />
+    <PackageReference Include="RestSharp">
+      <Version>106.11.4</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>
