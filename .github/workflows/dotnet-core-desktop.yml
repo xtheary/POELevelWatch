@@ -77,5 +77,15 @@ jobs:
     #- name: Setup MSBuild.exe
 #      uses: microsoft/setup-msbuild@2008f912f56e61277eefaac6d1888b750582aa16
 
-    - name: Build with dotnet
-      run: dotnet build $env:Solution_Name --configuration Release
+    - name: Publish with dotnet
+      run: dotnet publish $env:Solution_Name -r win-x64 -c Release /p:PublishSingleFile=true -o $env:GITHUB_WORKSPACE\Publish
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@v0.3.0
+      with:
+        filename: release.zip
+        path: $env:GITHUB_WORKSPACE\Publish
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Release
+        path: release.zip
