@@ -79,13 +79,40 @@ jobs:
 
     - name: Publish with dotnet
       run: dotnet publish $env:Solution_Name -r win-x64 -c Release /p:PublishSingleFile=true -o $env:GITHUB_WORKSPACE\Publish
-    - name: Zip Release
-      uses: TheDoctor0/zip-release@v0.3.0
+      
+    - name: Install 7zip
+      shell: powershell
+      run: Install-Module 7Zip4PowerShell -Force -Verbose
+         
+    - name: Zip publish folder
+      run: powershell Compress-7zip $env:GITHUB_WORKSPACE\Publish -ArchiveFileName "Releasex64.zip" -Format Zip
+   
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        filename: release.zip
-        path: $env:GITHUB_WORKSPACE\Publish
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Automated Release by GitHub Action CI
+        draft: false
+        prerelease: true
+        
+    - name: Upload Release Asset (x64)
+      id: upload-release-asset-x64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Releasex64.zip
+        asset_name: Releasex64.zip
+        asset_content_type: application/zip
+          
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Release
-        path: release.zip
+        path: ./Releasex64.zip
