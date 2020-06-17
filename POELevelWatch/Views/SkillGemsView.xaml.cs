@@ -194,7 +194,6 @@ namespace POELevelMon.Views
             var client = new RestClient();
             var request = new RestRequest(_skillsUrl, RestSharp.DataFormat.Json);
             var response = await client.GetAsync<string>(request);
-            //JObject jsObject = JObject.Parse(response.Content);
         }
 
         private void skillGemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -262,13 +261,7 @@ namespace POELevelMon.Views
                 SkillsPerLevel.Add(gemPerLevel);
             }
         }
-
-        private void myGemList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-           /* SkillGem gem = (SkillGem)myGemList.SelectedItem;
-            MyBuildSkillGems.Remove(gem);
-            UpdateGemsPerLevel();*/
-        }
+        
 
         private void gemLabel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

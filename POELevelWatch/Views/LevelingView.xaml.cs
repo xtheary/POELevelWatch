@@ -20,7 +20,7 @@ namespace POELevelMon.Views
     {
         IList<IList<Object>> _sheetValues;
         private string _characterName = string.Empty;
-        private string _clientFile = @"E:\Games\Path of Exile\logs\Client.txt";
+        private string _clientFile = "";
         private string _spreadsheetId = "";
         private string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
