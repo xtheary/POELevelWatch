@@ -65,7 +65,12 @@
                 <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
             <local:SkillGemsPerLevelCtrl x:Name="skillGemsPerLevelCtrl" GemLabelGotFocus="skillGemsPerLevelCtrl_GemLabelGotFocus" GemLabelMouseDoubleClick="skillGemsPerLevelCtrl_GemLabelMouseDoubleClick" Margin="0,0,20,10"></local:SkillGemsPerLevelCtrl>
-            <Button Grid.Row="1" Height="25" Width="80" HorizontalAlignment="Right" Margin="0,0,20,0" Name="saveBtn" Click="saveBtn_Click">Save</Button>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                <Button Height="25" Width="80" HorizontalAlignment="Right" Margin="0,0,20,0" Name="loadBtn" Click="loadBtn_Click">Load</Button>
+                <Button Height="25" Width="80" HorizontalAlignment="Right" Margin="0,0,20,0" Name="saveBtn" Click="saveBtn_Click">Save</Button>
+                
+            </StackPanel>
+            
         </Grid>
     </Grid>
 </UserControl>

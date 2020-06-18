@@ -68,7 +68,7 @@ namespace POELevelWatch.Views
             UpdateGemsPerLevel();
         }
 
-        private void UpdateGemsPerLevel()
+        public void UpdateGemsPerLevel()
         {
             SkillsPerLevel.Clear();
 

@@ -291,5 +291,22 @@ namespace POELevelMon.Views
             }
             
         }
+
+        private void loadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "json (*.json)|*.json";
+            dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (dlg.ShowDialog() == true)
+            {
+                using (StreamReader r = new StreamReader(dlg.FileName))
+                {
+                    string json = r.ReadToEnd();
+                    skillGemsPerLevelCtrl.MyBuildSkillGems.Clear();
+                    skillGemsPerLevelCtrl.MyBuildSkillGems = JsonConvert.DeserializeObject<List<SkillGem>>(json);
+                    skillGemsPerLevelCtrl.UpdateGemsPerLevel();
+                }
+            }
+        }
     }
 }
