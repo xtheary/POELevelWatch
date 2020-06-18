@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:POELevelMon"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="MainDarkGrey" Color="#40444a" />
+        <SolidColorBrush x:Key="SelectedGemLabel" Color="#1f5099" />
     </Application.Resources>
 </Application>

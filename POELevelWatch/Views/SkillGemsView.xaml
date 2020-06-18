@@ -32,7 +32,7 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0"  Name="skillName" TextChanged="skillName_TextChanged"></TextBox>
-                <ListBox Grid.Row="1"  Name="skillGemList" ItemsSource="{Binding Path=AllSkillGems}" SelectionChanged="skillGemList_SelectionChanged" SelectionMode="Single" MouseDoubleClick="skillGemList_MouseDoubleClick">
+                <ListBox Grid.Row="1"  Name="skillGemList" ItemsSource="{Binding Path=AllSkillGems}" SelectionChanged="skillGemList_SelectionChanged" SelectionMode="Single" MouseDoubleClick="skillGemList_MouseDoubleClick" Background="{StaticResource MainDarkGrey}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}" Foreground="{Binding NameColor}"/>

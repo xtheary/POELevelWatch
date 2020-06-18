@@ -27,6 +27,8 @@ namespace POELevelWatch.Views
         public List<SkillGem> MyBuildSkillGems { get; set; } = new List<SkillGem>();
         public ObservableCollection<SkillGemPerLevel> SkillsPerLevel { get; set; } = new ObservableCollection<SkillGemPerLevel>();
 
+        public int CurrentLevel { get; set; } = 0;
+
         public SkillGemsPerLevelCtrl()
         {
             InitializeComponent();
@@ -35,19 +37,19 @@ namespace POELevelWatch.Views
         private void gemLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var label = sender as TextBox;
-            label.Background = System.Windows.Media.Brushes.Silver;
+            label.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(Application.Current.Resources["SelectedGemLabel"].ToString()));  
         }
 
         private void gemLabel_LostFocus(object sender, RoutedEventArgs e)
         {
             var label = sender as TextBox;
-            label.Background = System.Windows.Media.Brushes.White;
+            label.Background = System.Windows.Media.Brushes.Black;
         }
 
         private void gemLabel_GotFocus(object sender, RoutedEventArgs e)
         {
             var label = sender as TextBox;
-            label.Background = System.Windows.Media.Brushes.Silver;
+            label.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(Application.Current.Resources["SelectedGemLabel"].ToString()));
             GemLabelGotFocus?.Invoke(sender, e);
         }
 
@@ -73,15 +75,24 @@ namespace POELevelWatch.Views
             var groupedList = MyBuildSkillGems.GroupBy(gem => gem.RequiredLevel).OrderBy(grp => Convert.ToInt32(grp.Key));
             foreach (var level in groupedList)
             {
-
                 SkillGemPerLevel gemPerLevel = new SkillGemPerLevel();
-                gemPerLevel.SectionTitle = $"Level {level.Key}";
+                int groupLevel = Convert.ToInt32(level.Key);
+                
                 foreach (var gem in level)
                 {
                     gemPerLevel.GroupGemsPerLevel.Add(gem);
                 }
+                //Display that they are available with a different UI
+                
+                gemPerLevel.Available = groupLevel <= CurrentLevel;
+                gemPerLevel.SectionTitle = $"Level {level.Key}";
+                //gemPerLevel.SectionTitle = gemPerLevel.Available ? $"Level {level.Key} UNLOCKED":$"Level {level.Key}";
+
+
                 SkillsPerLevel.Add(gemPerLevel);
             }
         }
+
+
     }
 }

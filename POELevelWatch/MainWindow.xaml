@@ -13,7 +13,7 @@
             <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="0,0,0,0" Background="#40444a">
+        <StackPanel Margin="0,0,0,0" Background="{StaticResource MainDarkGrey}">
             <Button  Name="skillGemsBtn" Click="skillGemsBtn_Click" Margin="0,0,0,0" Height="40" Background="White">Skill Gems</Button>
             <!--<Label>Character Name:</Label>
             <TextBox Name="character">ExileCrossing</TextBox>

@@ -11,13 +11,13 @@
     <UserControl.Resources>
         <DataTemplate x:Key="GemsPerLevelStackPanelTemplate">
         <StackPanel>
-            <Label Content="{Binding Path=SectionTitle}" FontWeight="Bold" />
+                <Label Content="{Binding Path=SectionTitle}" FontWeight="Bold" FontFamily="Fontin" Background="#40444a" Foreground="White"/>
             <ItemsControl x:Name="gemsPerLevelWrapPanel" ItemsSource="{Binding Path=GroupGemsPerLevel}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate >
                         <!--Style="{StaticResource GemBorderLabelStyle}-->
-                        <Border BorderThickness="2" BorderBrush="Silver" CornerRadius="3" Margin="5">
-                            <TextBox Name="gemLabel" Text="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
+                        <Border BorderThickness="2" BorderBrush="{Binding Path=NameColor}" CornerRadius="3" Margin="5">
+                            <TextBox Name="gemLabel" Text="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" Background="Black" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox">
                                         <Setter Property="IsReadOnly" Value="True" />
@@ -33,7 +33,7 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
+                        <WrapPanel Orientation="Horizontal" Background="{Binding BackgroundColor}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

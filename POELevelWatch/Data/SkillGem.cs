@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace POELevelMon.Data
 {
@@ -31,11 +32,12 @@ namespace POELevelMon.Data
             get 
             {
                 if (Attribute == "strength")
-                    return System.Windows.Media.Brushes.Red; 
+                    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#e85454"));
                 if (Attribute == "intelligence")
-                    return System.Windows.Media.Brushes.Blue;
+                    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#54bce8"));
                 if (Attribute == "dexterity")
-                    return System.Windows.Media.Brushes.Green;
+                    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#54e86d"));
+                
                 return System.Windows.Media.Brushes.Black;
             }
         }
