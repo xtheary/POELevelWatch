@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:POELevelMon.Views"
+             xmlns:local="clr-namespace:POELevelWatch.Views"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200"
              Background="White"
@@ -15,37 +15,6 @@
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="CornerRadius" Value="3" />
         </Style>
-        <DataTemplate x:Key="GemsPerLevelStackPanelTemplate">
-            <StackPanel>
-                <Label Content="{Binding Path=SectionTitle}" FontWeight="Bold" />
-                <ItemsControl x:Name="gemsPerLevelWrapPanel" ItemsSource="{Binding Path=GroupGemsPerLevel}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate >
-                            <!--Style="{StaticResource GemBorderLabelStyle}-->
-                            <Border BorderThickness="2" BorderBrush="Silver" CornerRadius="3" Margin="5">
-                                <TextBox Name="gemLabel" Text="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox">
-                                            <Setter Property="IsReadOnly" Value="True" />
-                                            <Setter Property="BorderThickness" Value="0" />
-                                            <Setter Property="TextWrapping" Value="Wrap" />
-                                        </Style>
-                                    </TextBox.Style>
-                                </TextBox>
-                                <!--
-                                <Label Name="gemLabel" Content="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" MouseDoubleClick="gemLabel_MouseDoubleClick" MouseLeftButtonDown="gemLabel_MouseLeftButtonDown" LostFocus="gemLabel_LostFocus"/>-->
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-                <!--<Label Content="{Binding Path=Gems}" />-->
-            </StackPanel>
-        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -88,11 +57,10 @@
                         <local:SkillAquisitionBoard x:Name="questRewardTable"></local:SkillAquisitionBoard>
                     </StackPanel>
                 </ScrollViewer>
-            </Grid>
+            </Grid> 
         </Grid>
         <Grid Grid.Column="1" Margin="20,0,0,0">
-            <ItemsControl x:Name="gemPerLevelPanel" ItemsSource="{Binding Path=SkillsPerLevel}" ItemTemplate="{StaticResource GemsPerLevelStackPanelTemplate}">
-            </ItemsControl>
+            <local:SkillGemsPerLevelCtrl x:Name="skillGemsPerLevelCtrl" GemLabelGotFocus="skillGemsPerLevelCtrl_GemLabelGotFocus" GemLabelMouseDoubleClick="skillGemsPerLevelCtrl_GemLabelMouseDoubleClick"></local:SkillGemsPerLevelCtrl>
         </Grid>
     </Grid>
 </UserControl>

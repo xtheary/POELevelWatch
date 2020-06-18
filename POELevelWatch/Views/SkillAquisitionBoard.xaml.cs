@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace POELevelMon.Views
+namespace POELevelWatch.Views
 {
     /// <summary>
     /// Interaction logic for SkillAquisitionBoard.xaml

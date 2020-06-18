@@ -24,8 +24,6 @@ namespace POELevelMon.Views
         private string _questRewardsUrl = "https://pathofexile.gamepedia.com/api.php?action=cargoquery&tables=quest_rewards&fields=quest,act,reward,classes&limit=500&format=json";
         private string _vendorRewardsUrlStart = "https://pathofexile.gamepedia.com/api.php?action=cargoquery&tables=vendor_rewards&fields=quest,act,reward,classes,npc&limit=500";
         public ObservableCollection<SkillGem> AllSkillGems { get; set; } = new ObservableCollection<SkillGem>();
-        public ObservableCollection<SkillGem> MyBuildSkillGems { get; set; } = new ObservableCollection<SkillGem>();
-        public ObservableCollection<SkillGemPerLevel> SkillsPerLevel { get; set; } = new ObservableCollection<SkillGemPerLevel>();
 
         private Dictionary<string, QuestRewards> _allQuestRewards = new Dictionary<string, QuestRewards>();
         private Dictionary<string, VendorRewards> _allVendorRewards = new Dictionary<string, VendorRewards>();
@@ -240,35 +238,9 @@ namespace POELevelMon.Views
         private void skillGemList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             SkillGem gem = (SkillGem)skillGemList.SelectedItem;
-            MyBuildSkillGems.Add(gem);
-            UpdateGemsPerLevel();
+            skillGemsPerLevelCtrl.Add(gem);
         }
 
-        private void UpdateGemsPerLevel()
-        {
-            SkillsPerLevel.Clear();
-
-            var groupedList = MyBuildSkillGems.GroupBy(gem => gem.RequiredLevel).OrderBy(grp => Convert.ToInt32(grp.Key));
-            foreach(var level in groupedList)
-            {
-                
-                SkillGemPerLevel gemPerLevel = new SkillGemPerLevel();
-                gemPerLevel.SectionTitle = $"Level {level.Key}";
-                foreach(var gem in level)
-                {
-                    gemPerLevel.GroupGemsPerLevel.Add(gem);
-                }
-                SkillsPerLevel.Add(gemPerLevel);
-            }
-        }
-        
-
-        private void gemLabel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var label = sender as TextBox;
-            MyBuildSkillGems.Remove((SkillGem)label.DataContext);
-            UpdateGemsPerLevel();
-        }
 
         private void skillName_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -287,31 +259,19 @@ namespace POELevelMon.Views
                     return false;
                 };
             }
-            
 
         }
 
-        private void gemLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void skillGemsPerLevelCtrl_GemLabelGotFocus(object sender, RoutedEventArgs e)
         {
-            var label = sender as TextBox;
-            label.Background = System.Windows.Media.Brushes.Silver;
-        }
-
-        private void gemLabel_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var label = sender as TextBox;
-            label.Background = System.Windows.Media.Brushes.White;
-        }
-
-        private void gemLabel_GotFocus(object sender, RoutedEventArgs e)
-        {
-            skillGemList.SelectedItem = null;
+             skillGemList.SelectedItem = null;
             var label = sender as TextBox;
             SkillGem gem = label.DataContext as SkillGem;
             UpdateSkillInfoPanel(gem);
-            label.Background = System.Windows.Media.Brushes.Silver;
+        }
 
-
+        private void skillGemsPerLevelCtrl_GemLabelMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
