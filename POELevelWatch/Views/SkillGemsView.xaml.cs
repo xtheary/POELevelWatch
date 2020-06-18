@@ -1,10 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using POELevelMon.Data;
+using POELevelWatch.Properties;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -230,9 +234,8 @@ namespace POELevelMon.Views
             }
         }
 
-        private void myGemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void skillGemsPerLevelCtrl_GemLabelMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void skillGemList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -270,8 +273,23 @@ namespace POELevelMon.Views
             UpdateSkillInfoPanel(gem);
         }
 
-        private void skillGemsPerLevelCtrl_GemLabelMouseDoubleClick(object sender, RoutedEventArgs e)
+       
+
+        private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
+            //Save the gems in the build into a list
+            var json = JsonConvert.SerializeObject(skillGemsPerLevelCtrl.MyBuildSkillGems);
+            
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dlg.FileName = "MyBuildSkillGems.json";
+            dlg.Filter = "json (*.json)|*.json";
+            if (dlg.ShowDialog() == true)
+            {
+                //save
+                File.WriteAllText(dlg.FileName, json);
+            }
+            
         }
     }
 }

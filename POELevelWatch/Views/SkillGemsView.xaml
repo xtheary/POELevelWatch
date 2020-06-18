@@ -60,7 +60,12 @@
             </Grid> 
         </Grid>
         <Grid Grid.Column="1" Margin="20,0,0,0">
-            <local:SkillGemsPerLevelCtrl x:Name="skillGemsPerLevelCtrl" GemLabelGotFocus="skillGemsPerLevelCtrl_GemLabelGotFocus" GemLabelMouseDoubleClick="skillGemsPerLevelCtrl_GemLabelMouseDoubleClick"></local:SkillGemsPerLevelCtrl>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+            <local:SkillGemsPerLevelCtrl x:Name="skillGemsPerLevelCtrl" GemLabelGotFocus="skillGemsPerLevelCtrl_GemLabelGotFocus" GemLabelMouseDoubleClick="skillGemsPerLevelCtrl_GemLabelMouseDoubleClick" Margin="0,0,20,10"></local:SkillGemsPerLevelCtrl>
+            <Button Grid.Row="1" Height="25" Width="80" HorizontalAlignment="Right" Margin="0,0,20,0" Name="saveBtn" Click="saveBtn_Click">Save</Button>
         </Grid>
     </Grid>
 </UserControl>

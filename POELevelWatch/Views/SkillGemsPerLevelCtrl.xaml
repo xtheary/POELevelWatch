@@ -6,43 +6,45 @@
              xmlns:local="clr-namespace:POELevelWatch.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="White"
              DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <UserControl.Resources>
         <DataTemplate x:Key="GemsPerLevelStackPanelTemplate">
-        <StackPanel>
-                <Label Content="{Binding Path=SectionTitle}" FontWeight="Bold" FontFamily="Fontin" Background="#40444a" Foreground="White"/>
-            <ItemsControl x:Name="gemsPerLevelWrapPanel" ItemsSource="{Binding Path=GroupGemsPerLevel}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate >
-                        <!--Style="{StaticResource GemBorderLabelStyle}-->
-                        <Border BorderThickness="2" BorderBrush="{Binding Path=NameColor}" CornerRadius="3" Margin="5">
-                            <TextBox Name="gemLabel" Text="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" Background="Black" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="IsReadOnly" Value="True" />
-                                        <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                            <!--
+        
+                <StackPanel>
+                    <Label Content="{Binding Path=SectionTitle}" FontWeight="Bold" FontFamily="Fontin" Background="#40444a" Foreground="White"/>
+                    <ItemsControl x:Name="gemsPerLevelWrapPanel" ItemsSource="{Binding Path=GroupGemsPerLevel}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate >
+                                <!--Style="{StaticResource GemBorderLabelStyle}-->
+                                <Border BorderThickness="2" BorderBrush="{Binding Path=NameColor}" CornerRadius="3" Margin="5">
+                                    <TextBox Name="gemLabel" Text="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" Background="Black" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                    <!--
                                 <Label Name="gemLabel" Content="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" MouseDoubleClick="gemLabel_MouseDoubleClick" MouseLeftButtonDown="gemLabel_MouseLeftButtonDown" LostFocus="gemLabel_LostFocus"/>-->
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" Background="{Binding BackgroundColor}"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <!--<Label Content="{Binding Path=Gems}" />-->
-        </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" Background="{Binding BackgroundColor}"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <!--<Label Content="{Binding Path=Gems}" />-->
+                </StackPanel>
     </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <ItemsControl x:Name="gemPerLevelPanel" ItemsSource="{Binding Path=SkillsPerLevel}" ItemTemplate="{StaticResource GemsPerLevelStackPanelTemplate}">
-        </ItemsControl>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="gemPerLevelPanel" ItemsSource="{Binding Path=SkillsPerLevel}" ItemTemplate="{StaticResource GemsPerLevelStackPanelTemplate}">
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>
