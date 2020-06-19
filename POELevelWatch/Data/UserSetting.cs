@@ -10,5 +10,7 @@ namespace POELevelWatch.Data
         public string Character { get; set; }
         public string Class { get; set; }
         public string BuildSkillGemsPath{ get; set; }
+        public Dictionary<string, string> ActNotes { get; set; } = new Dictionary<string, string>();
+        
     }
 }

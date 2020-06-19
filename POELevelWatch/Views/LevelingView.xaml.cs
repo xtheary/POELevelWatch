@@ -16,6 +16,7 @@ using System.Reflection.Metadata.Ecma335;
 using Microsoft.Win32;
 using POELevelWatch.Properties;
 using System.Configuration;
+using System.Linq;
 
 namespace POELevelMon.Views
 {
@@ -44,10 +45,8 @@ namespace POELevelMon.Views
             characterLevel.Text = "1";
             startBtn.IsEnabled = !string.IsNullOrEmpty(poeFolder.Text);
 
-            AppDataManager.Instance().Settings.Load();
-            poeFolder.Text = AppDataManager.Instance().Settings.User.POEFolder;
-            character.Text = AppDataManager.Instance().Settings.User.Character;
-            cbClass.Text = AppDataManager.Instance().Settings.User.Class;
+            Load();
+            
 
         }
 
@@ -58,10 +57,7 @@ namespace POELevelMon.Views
 
             try
             {
-                AppDataManager.Instance().Settings.User.Character = character.Text;
-                AppDataManager.Instance().Settings.User.POEFolder = poeFolder.Text;
-                AppDataManager.Instance().Settings.User.Class = cbClass.Text;
-                AppDataManager.Instance().Settings.Save();
+                Save();
 
                 _clientFileStream = new FileStream(_clientFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
@@ -118,26 +114,28 @@ namespace POELevelMon.Views
         private void StartWatchingFile(string file)
         {
             new Thread(() =>
-            {
-                bool isWatching = true;
-                while (isWatching)
-                {
-                    ReverseTextReader reader = new ReverseTextReader(_clientFileStream, Encoding.UTF8);
-                    string line = reader.ReadLine(); //last line always a new line
+           {
+
+               bool isWatching = true;
+               while (isWatching)
+               {
+                   ReverseTextReader reader = new ReverseTextReader(_clientFileStream, Encoding.UTF8);
+                   string line = reader.ReadLine(); //last line always a new line
                     line = reader.ReadLine();
 
-                    Regex pattern = new Regex($"{_characterName}.*is now level (\\d*)");
-                    Match match = pattern.Match(line);
-                    if (match.Success)
-                    {
-                        string level = match.Groups[1].Value;
-                        Application.Current.Dispatcher.Invoke(new Action(() => { characterLevel.Text = level; }));
+                   Regex pattern = new Regex($"{_characterName}.*is now level (\\d*)");
+                   Match match = pattern.Match(line);
+                   if (match.Success)
+                   {
+                       string level = match.Groups[1].Value;
+                       Application.Current.Dispatcher.Invoke(new Action(() => { characterLevel.Text = level; }));
 
-                    }
-                    Thread.Sleep(1000);
-                }
+                   }
+                   Thread.Sleep(1000);
+               }
 
-            }).Start();
+           })
+           { IsBackground = true }.Start();
 
 
         }
@@ -273,6 +271,44 @@ namespace POELevelMon.Views
         private void poeFolder_TextChanged(object sender, TextChangedEventArgs e)
         {
             startBtn.IsEnabled = !string.IsNullOrEmpty(poeFolder.Text);
+        }
+
+
+        private void Save()
+        {
+            AppDataManager.Instance().Settings.User.Character = character.Text;
+            AppDataManager.Instance().Settings.User.POEFolder = poeFolder.Text;
+            AppDataManager.Instance().Settings.User.Class = cbClass.Text;
+
+            for (int i = 0; i < tabActs.Items.Count; i++)
+            {
+                TabItem tabItem = tabActs.Items[i] as TabItem;
+                TextBox txtBox = tabItem.Content as TextBox;
+                string value = txtBox.Text;
+                AppDataManager.Instance().Settings.User.ActNotes[$"Act{i+1}"] = value;
+            }
+
+            AppDataManager.Instance().Settings.Save();
+
+        }
+
+        private void Load()
+        {
+            AppDataManager.Instance().Settings.Load();
+            poeFolder.Text = AppDataManager.Instance().Settings.User.POEFolder;
+            character.Text = AppDataManager.Instance().Settings.User.Character;
+            cbClass.Text = AppDataManager.Instance().Settings.User.Class;
+
+            for (int i = 0; i < tabActs.Items.Count; i++)
+            {
+                TabItem tabItem = tabActs.Items[i] as TabItem;
+                TextBox txtBox = tabItem.Content as TextBox;
+                string key = $"Act{i + 1}";
+                if (AppDataManager.Instance().Settings.User.ActNotes.ContainsKey(key))
+                {
+                    txtBox.Text = AppDataManager.Instance().Settings.User.ActNotes[key];
+                }
+            }
         }
     }
 }

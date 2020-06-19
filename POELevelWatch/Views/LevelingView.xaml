@@ -75,7 +75,7 @@
                 <RowDefinition Height="300"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <TabControl Grid.Row="0" Margin="10,0,10,0">
+            <TabControl Name="tabActs" Grid.Row="0" Margin="10,0,10,0">
                 <TabItem>
                     <TabItem.Header>
                         <TextBlock Text="Act 1" FontSize="20"/>
