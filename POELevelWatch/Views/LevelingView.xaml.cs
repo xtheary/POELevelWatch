@@ -10,6 +10,9 @@ using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Services;
 using System.Text.RegularExpressions;
 using POELevel.Model;
+using POELevelMon.Data;
+using POELevelWatch;
+using System.Reflection.Metadata.Ecma335;
 
 namespace POELevelMon.Views
 {
@@ -67,6 +70,7 @@ namespace POELevelMon.Views
 
 
                 StartWatchingFile(_clientFile);
+                watchStatus.Content = "Watching...";
                 //CreateFileWatcher(System.IO.Path.GetDirectoryName(_clientFile));
             }
             catch
@@ -189,6 +193,46 @@ namespace POELevelMon.Views
 
             //inStream.Close();
             // }
+        }
+
+        private void cbClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string charClass = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+            //refresh all build gem quest reward by chosen class
+            foreach (SkillGem gem in AppDataManager.Instance().MyBuildSkillGems)
+            {
+                if (gem.QuestRewards == null)
+                    continue;
+                gem.CharacterClass = charClass;
+            }
+        }
+
+        private void UpdateSkillInfoPanel(SkillGem gem)
+        {
+            questRewardTable.SkillAquisitionList.Clear();
+            vendorRewardTable.SkillAquisitionList.Clear();
+
+            SelectedGem.Content = gem.Name;
+            SelectedGem.Foreground = gem.NameColor;
+            //get aquisistion
+            if (gem.QuestRewards != null)
+            {
+                SkillAquisition sa = new SkillAquisition(gem);
+                questRewardTable.SkillAquisitionList.Add(sa);
+            }
+
+            foreach (var vendorReward in gem.VendorRewardsList)
+            {
+                SkillAquisition sav = new SkillAquisition(gem.Name, vendorReward);
+                vendorRewardTable.SkillAquisitionList.Add(sav);
+            }
+        }
+
+        private void skillGemsPerLevelCtrl_GemLabelGotFocus(object sender, RoutedEventArgs e)
+        {
+            var label = sender as TextBox;
+            SkillGem gem = label.DataContext as SkillGem;
+            UpdateSkillInfoPanel(gem);
         }
     }
 }

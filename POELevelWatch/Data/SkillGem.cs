@@ -1,13 +1,48 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Media;
 
 namespace POELevelMon.Data
 {
-    public class SkillGem
+    public class SkillGem : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Attribute { get; set; }
         public string RequiredLevel { get; set; }
+        private string _charClass;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string CharacterClass 
+        {
+            get { return _charClass; }
+            set { _charClass = value;
+                OnPropertyChanged("DisplayName");
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                if (QuestRewards != null)
+                {
+                    if (!string.IsNullOrEmpty(CharacterClass))
+                    {
+                        if (QuestRewards.RewardsPerClasses[Name].Contains(CharacterClass))
+                            return $"[QR]A{QuestRewards.Act} - {Name}";
+                        else
+                            return $"{Name}";
+                    }
+                    else
+                        return $"[QR]A{QuestRewards.Act} - {Name}";
+
+                }
+                    
+                return $"{Name}";
+            }
+         
+        }
 
         public string ToolTip 
         { 
@@ -42,6 +77,13 @@ namespace POELevelMon.Data
             }
         }
 
-       
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }

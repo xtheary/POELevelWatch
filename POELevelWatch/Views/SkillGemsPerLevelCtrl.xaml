@@ -17,7 +17,7 @@
                             <DataTemplate >
                                 <!--Style="{StaticResource GemBorderLabelStyle}-->
                                 <Border BorderThickness="2" BorderBrush="{Binding Path=NameColor}" CornerRadius="3" Margin="5">
-                                    <TextBox Name="gemLabel" Text="{Binding Path=Name}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" Background="Black" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
+                                <TextBox Name="gemLabel" Text="{Binding Path=DisplayName, Mode=OneWay}" Foreground="{Binding Path=NameColor}" ToolTip="{Binding Path=ToolTip}" Background="Black" MouseDoubleClick="gemLabel_MouseDoubleClick" GotFocus="gemLabel_GotFocus" LostFocus="gemLabel_LostFocus" Height="22" Padding="2">
                                         <TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Setter Property="IsReadOnly" Value="True" />
