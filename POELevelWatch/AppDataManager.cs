@@ -1,4 +1,5 @@
 ﻿using POELevelMon.Data;
+using POELevelWatch.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,8 @@ namespace POELevelWatch
         private static AppDataManager _instance;
         public ObservableCollection<SkillGem> MyBuildSkillGems { get; set; } = new ObservableCollection<SkillGem>();
 
+        AppSettings _settings = new AppSettings();
+
         private AppDataManager() { }
         
         public static AppDataManager Instance()
@@ -21,6 +24,11 @@ namespace POELevelWatch
             }
 
             return _instance;
+        }
+
+        public AppSettings Settings
+        {
+            get { return _settings; }
         }
 
 

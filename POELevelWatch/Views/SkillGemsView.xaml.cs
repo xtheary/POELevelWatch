@@ -310,7 +310,12 @@ namespace POELevelMon.Views
                         //find corresponding gem in the AllList
                         var gem = AllSkillGems.Where(x => x.Name == item.Name).SingleOrDefault();
                         if(gem != null)
+                        {
+                            gem.CharacterClass = AppDataManager.Instance().Settings.User.Class;
                             AppDataManager.Instance().MyBuildSkillGems.Add(gem);
+                        }
+                        
+
                     }
 
                 }

@@ -62,8 +62,10 @@
             <xctk:IntegerUpDown  Grid.Column="1" Grid.Row="0" Name="characterLevel"  Maximum="100" Minimum="1" ValueChanged="characterLevel_ValueChanged" Margin="5,0,10,0"/>
             <Label Name="levelLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" FontSize="50" Background="Black" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10"></Label>
             <!--<Button Width="100" HorizontalAlignment="Left" Margin="5,10,0,0">Load skill gems</Button>-->
+            <Label Foreground="White" Margin="0,20,0,0">POE Install folder</Label>
+            <TextBox Margin="5,0,10,0" Name="poeFolder" TextChanged="poeFolder_TextChanged"></TextBox>
             <StackPanel Orientation="Horizontal">
-                <Button  Name="startBtn" Click="startBtn_Click" Width="100" Margin="10,2,2,2">Start</Button>
+                <Button  Name="startBtn" Click="startBtn_Click" Width="100" Margin="5,10,2,2">Start</Button>
                 <Label Foreground="White" Name="watchStatus"></Label>
             </StackPanel>
         </StackPanel>

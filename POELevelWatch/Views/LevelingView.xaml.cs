@@ -13,6 +13,9 @@ using POELevel.Model;
 using POELevelMon.Data;
 using POELevelWatch;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.Win32;
+using POELevelWatch.Properties;
+using System.Configuration;
 
 namespace POELevelMon.Views
 {
@@ -30,18 +33,49 @@ namespace POELevelMon.Views
         private string _apiKey = "";
         Stream _clientFileStream;
 
+        
+        public bool IsStartEnabled { get; set; }
+
         public LevelingView()
         {
             InitializeComponent();
-
+            DataContext = this;
             //characterLevel.IsReadOnly = true;
             characterLevel.Text = "1";
+            startBtn.IsEnabled = !string.IsNullOrEmpty(poeFolder.Text);
+
+            AppDataManager.Instance().Settings.Load();
+            poeFolder.Text = AppDataManager.Instance().Settings.User.POEFolder;
+            character.Text = AppDataManager.Instance().Settings.User.Character;
+            cbClass.Text = AppDataManager.Instance().Settings.User.Class;
+
         }
 
         private void startBtn_Click(object sender, RoutedEventArgs e)
         {
             _characterName = character.Text;
-            //_clientFile = System.IO.Path.Combine(poeFolder.Text, @"logs\Client.txt");
+            _clientFile = System.IO.Path.Combine(poeFolder.Text, @"logs\Client.txt");
+
+            try
+            {
+                AppDataManager.Instance().Settings.User.Character = character.Text;
+                AppDataManager.Instance().Settings.User.POEFolder = poeFolder.Text;
+                AppDataManager.Instance().Settings.User.Class = cbClass.Text;
+                AppDataManager.Instance().Settings.Save();
+
+                _clientFileStream = new FileStream(_clientFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+                characterLevel.IsReadOnly = false;
+                StartWatchingFile(_clientFile);
+                watchStatus.Content = "Watching...";
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            /*
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 //HttpClientInitializer = credential,
@@ -50,7 +84,7 @@ namespace POELevelMon.Views
             });
 
             String range = $"{character.Text}!A1:D";
-
+            
             try
             {
                 _clientFileStream = new FileStream(_clientFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -76,7 +110,7 @@ namespace POELevelMon.Views
             catch
             {
                 MessageBox.Show("Unable to load sheet");
-            }
+            }*/
 
         }
 
@@ -198,6 +232,7 @@ namespace POELevelMon.Views
         private void cbClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string charClass = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content as string;
+            AppDataManager.Instance().Settings.User.Class = charClass;
             //refresh all build gem quest reward by chosen class
             foreach (SkillGem gem in AppDataManager.Instance().MyBuildSkillGems)
             {
@@ -233,6 +268,11 @@ namespace POELevelMon.Views
             var label = sender as TextBox;
             SkillGem gem = label.DataContext as SkillGem;
             UpdateSkillInfoPanel(gem);
+        }
+
+        private void poeFolder_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            startBtn.IsEnabled = !string.IsNullOrEmpty(poeFolder.Text);
         }
     }
 }
