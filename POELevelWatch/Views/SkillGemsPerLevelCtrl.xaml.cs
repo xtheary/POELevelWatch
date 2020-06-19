@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -24,15 +25,35 @@ namespace POELevelWatch.Views
         public event RoutedEventHandler GemLabelGotFocus;
         public event RoutedEventHandler GemLabelMouseDoubleClick;
 
-        public List<SkillGem> MyBuildSkillGems { get; set; } = new List<SkillGem>();
+        //public List<SkillGem> MyBuildSkillGems { get; set; } = new List<SkillGem>();
+        //public static ObservableCollection<SkillGem> MyBuildSkillGems { get; set; }
         public ObservableCollection<SkillGemPerLevel> SkillsPerLevel { get; set; } = new ObservableCollection<SkillGemPerLevel>();
 
-        public int CurrentLevel { get; set; } = 0;
+        private int _currentLevel = 0;
+
+        public int CurrentLevel 
+        { 
+            get { return _currentLevel; }
+            set 
+            {
+                _currentLevel = value;
+                UpdateGemsPerLevel();
+            } 
+        }
 
         public SkillGemsPerLevelCtrl()
         {
+            //MyBuildSkillGems = new ObservableCollection<SkillGem>();
+            AppDataManager.Instance().MyBuildSkillGems.CollectionChanged += OnMyBuildSkillGemsChanged;
             InitializeComponent();
+         
         }
+
+        void OnMyBuildSkillGemsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateGemsPerLevel();
+        }
+
 
         private void gemLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -58,21 +79,21 @@ namespace POELevelWatch.Views
         {
             GemLabelMouseDoubleClick?.Invoke(sender, e);
             var label = sender as TextBox;
-            MyBuildSkillGems.Remove((SkillGem)label.DataContext);
-            UpdateGemsPerLevel();
+            AppDataManager.Instance().MyBuildSkillGems.Remove((SkillGem)label.DataContext);
+          //  UpdateGemsPerLevel();
         }
 
         public void Add(SkillGem gem)
         {
-            MyBuildSkillGems.Add(gem);
-            UpdateGemsPerLevel();
+            AppDataManager.Instance().MyBuildSkillGems.Add(gem);
+          //  UpdateGemsPerLevel();
         }
 
         public void UpdateGemsPerLevel()
         {
             SkillsPerLevel.Clear();
 
-            var groupedList = MyBuildSkillGems.GroupBy(gem => gem.RequiredLevel).OrderBy(grp => Convert.ToInt32(grp.Key));
+            var groupedList = AppDataManager.Instance().MyBuildSkillGems.GroupBy(gem => gem.RequiredLevel).OrderBy(grp => Convert.ToInt32(grp.Key));
             foreach (var level in groupedList)
             {
                 SkillGemPerLevel gemPerLevel = new SkillGemPerLevel();

@@ -4,19 +4,102 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:local="clr-namespace:POELevelMon.Views"
+             xmlns:local="clr-namespace:POELevelWatch.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+               
+    </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Background="{StaticResource MainDarkGrey}">
+            <Label Foreground="White">Character</Label>
+            <TextBox Name="character" Margin="5,0,10,0">ExileCrossing</TextBox>
+            <Label Foreground="White">Level</Label>
+            <xctk:IntegerUpDown  Grid.Column="1" Grid.Row="0" Name="characterLevel"  Maximum="100" Minimum="1" ValueChanged="characterLevel_ValueChanged" Margin="5,0,10,0"/>
+            <Label Name="levelLbl" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" FontSize="50" Background="Black" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10"></Label>
+            <!--<Button Width="100" HorizontalAlignment="Left" Margin="5,10,0,0">Load skill gems</Button>-->
+            <StackPanel Orientation="Horizontal">
+                <Button  Name="startBtn" Click="startBtn_Click" Width="100" Margin="10,2,2,2">Start</Button>
+                <Label Foreground="White" Name="watchStatus">Watching...</Label>
+            </StackPanel>
+        </StackPanel>
+        <local:SkillGemsPerLevelCtrl Grid.Column="1" x:Name="skillGemsPerLevel" Margin="20,0,20,0"></local:SkillGemsPerLevelCtrl>
+        <TabControl Grid.Column="2">
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Act 1" FontSize="20"/>
+                </TabItem.Header>
+                <TextBox></TextBox>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Act 2" FontSize="20"/>
+                </TabItem.Header>
+                <TextBox></TextBox>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Act 3" FontSize="20"/>
+                </TabItem.Header>
+                <TextBox></TextBox>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Act 4" FontSize="20"/>
+                </TabItem.Header>
+                <TextBox></TextBox>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Act 5" FontSize="20"/>
+                </TabItem.Header>
+                <TextBox></TextBox>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Act 6" FontSize="20"/>
+                </TabItem.Header>
+                <TextBox></TextBox>
+            </TabItem>
+        </TabControl>
+        <!--
         <Grid.RowDefinitions >
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
-            <!--separator-->
+            
             <RowDefinition></RowDefinition>
-            <!--next action-->
+            
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Label>Character:</Label>
@@ -41,7 +124,7 @@
             <Label Grid.Column="3" Grid.Row="0" Name="ascendency"></Label>
             <Label Grid.Column="4" Grid.Row="0" Background="Silver" Name="ascendencyOrder"></Label>
         </Grid>
-        <!--Actions-->
+        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition ></ColumnDefinition>
@@ -74,5 +157,6 @@
             <Label Name="nextLevel">Next action at level:</Label>
             <Label Name="nextAction"></Label>
         </StackPanel>
+        -->
     </Grid>
 </UserControl>

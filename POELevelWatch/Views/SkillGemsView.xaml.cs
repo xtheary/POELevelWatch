@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using POELevelMon.Data;
+using POELevelWatch;
 using POELevelWatch.Properties;
 using RestSharp;
 using System;
@@ -278,8 +279,8 @@ namespace POELevelMon.Views
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
             //Save the gems in the build into a list
-            var json = JsonConvert.SerializeObject(skillGemsPerLevelCtrl.MyBuildSkillGems);
-            
+            var json = JsonConvert.SerializeObject(AppDataManager.Instance().MyBuildSkillGems);
+            //TODO:Only save gem name
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             dlg.FileName = "MyBuildSkillGems.json";
@@ -302,9 +303,16 @@ namespace POELevelMon.Views
                 using (StreamReader r = new StreamReader(dlg.FileName))
                 {
                     string json = r.ReadToEnd();
-                    skillGemsPerLevelCtrl.MyBuildSkillGems.Clear();
-                    skillGemsPerLevelCtrl.MyBuildSkillGems = JsonConvert.DeserializeObject<List<SkillGem>>(json);
-                    skillGemsPerLevelCtrl.UpdateGemsPerLevel();
+                    AppDataManager.Instance().MyBuildSkillGems.Clear();
+                    var  list = JsonConvert.DeserializeObject<ObservableCollection<SkillGem>>(json);
+                    foreach(var item in list)
+                    {
+                        //find corresponding gem in the AllList
+                        var gem = AllSkillGems.Where(x => x.Name == item.Name).SingleOrDefault();
+                        if(gem != null)
+                            AppDataManager.Instance().MyBuildSkillGems.Add(gem);
+                    }
+
                 }
             }
         }

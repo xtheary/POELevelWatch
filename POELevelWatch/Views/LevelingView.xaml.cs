@@ -30,7 +30,9 @@ namespace POELevelMon.Views
         public LevelingView()
         {
             InitializeComponent();
-            characterLevel.IsReadOnly = true;
+
+            //characterLevel.IsReadOnly = true;
+            characterLevel.Text = "1";
         }
 
         private void startBtn_Click(object sender, RoutedEventArgs e)
@@ -56,8 +58,8 @@ namespace POELevelMon.Views
                 _sheetValues = getResponse.Values;
 
                 //get ascendency
-                ascendency.Content = _sheetValues[0][1];
-                ascendencyOrder.Content = _sheetValues[1][1];
+                //ascendency.Content = _sheetValues[0][1];
+                //ascendencyOrder.Content = _sheetValues[1][1];
 
                 characterLevel.IsReadOnly = false;
                 //set the current character value
@@ -104,7 +106,9 @@ namespace POELevelMon.Views
 
         private void characterLevel_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (_sheetValues == null)
+            levelLbl.Content = characterLevel.Text;
+            skillGemsPerLevel.CurrentLevel = Convert.ToInt32(characterLevel.Text);
+           /* if (_sheetValues == null)
                 return;
             //find matching level and display action
             for (int i = 3; i < _sheetValues.Count; i++)
@@ -134,7 +138,7 @@ namespace POELevelMon.Views
                         gemLinks.Text = row[3].ToString();
                     break;
                 }
-            }
+            }*/
         }
 
 
